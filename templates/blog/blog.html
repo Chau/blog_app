@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>{{ blog.title }}</h2><br>
+    {% for post in post_list %}
+        <a href="{% url 'post' blog_id=blog.id pk=post.id %}">{{ post.title }}</a> <br>
+        {{ post.body }} <br>
+        <hr>
+    {% endfor %}
+    <form action="{% url 'blog_subscribe' blog_id=blog.id %}" method="post">
+        {% csrf_token %}
+    <label> Подписаться
+    <input type="checkbox">
+    </label>
+    <input type="hidden" name="blog_id" value="{{ blog.id }}">
+    <input type="submit" value="Вперёд">
+    </form>
+</body>
+</html>
