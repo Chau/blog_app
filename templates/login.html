@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Логин</title>
+</head>
+<body>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <label>
+            Введите имя пользователя<br>
+        <input type="text" name="user_name">
+        </label>
+        <input type="submit" value="Войти">
+    </form>
+
+</body>
+</html>
