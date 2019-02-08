@@ -9,15 +9,21 @@
     {% for post in post_list %}
         <a href="{% url 'post' blog_id=blog.id pk=post.id %}">{{ post.title }}</a> <br>
         {{ post.body }} <br>
+        <span style="font-size: 12px">{{ post.ctime|date:"H:i d.m.Y" }}</span><br>
         <hr>
     {% endfor %}
+{% if request.session.user_name != blog.owner.username %}
     <form action="{% url 'blog_subscribe' blog_id=blog.id %}" method="post">
         {% csrf_token %}
-    <label> Подписаться
-    <input type="checkbox">
+    <label> Подписка
+    <input type="checkbox" name="subscribe" {% if is_subscriber %} checked {% endif %}>
     </label>
     <input type="hidden" name="blog_id" value="{{ blog.id }}">
     <input type="submit" value="Вперёд">
-    </form>
+    </form><br>
+{% else %}
+<a href="{% url 'post_create' blog_id=blog.id %}">Написать в блог</a><br>
+{% endif %}
+<a href="{% url 'blogs_list' %}">Все блоги</a>
 </body>
 </html>

@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ post.blog.title }}</title>
 </head>
 <body>
+<p><h2><a href="{% url 'blog' blog_id=post.blog.id %}">{{ post.blog.title }}</a></h2></p>
 <p>{{ post.title }}</p>
 <p>{{ post.body }}</p>
+{% if request.session.user_name == post.blog.owner.username %}
+    <a href="{% url 'post_create' blog_id=post.blog.id %}">Написать в блог</a>
+{% endif %}
 
 </body>
 </html>

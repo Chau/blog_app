@@ -5,6 +5,22 @@
     <title>Title</title>
 </head>
 <body>
-    hello, {{ user_name }}!
+    hello, {{ user_name }}!<br>
+    {% for post in post_list %}
+    {% with post.blog as blog %}
+    <b>Блог: <a href="{% url 'blog' blog_id=blog.id %}">{{ blog.title }}</a><br></b>
+        <a href="{% url 'post' blog_id=blog.id pk=post.id %}">{{ post.title }}</a> <br>
+    {% endwith %}
+    {{ post.body }} <br>
+    <span style="font-size: 12px">{{ post.ctime|date:"H:i d.m.Y" }}</span><br>
+    <label>
+        <i>отметить как прочитанное</i>
+        <input type="checkbox" value="">
+    </label>
+    <hr>
+    {% endfor %}
+<script>
+    
+</script>
 </body>
 </html>

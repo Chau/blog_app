@@ -20,7 +20,22 @@ class Blog(models.Model):
 
     def subscribe(self, user_name):
         user = BlogUser.objects.get(username=user_name)
-        user.blogs.add(self)
+        Subscriber.objects.create(user=user, blog=self)
+
+    def unsubscribe(self, user_name):
+        user = BlogUser.objects.get(username=user_name)
+        Subscriber.objects.filter(user=user, blog=self).delete()
+
+    def is_subscriber(self, user_name):
+        '''
+        Return True if @user_name is subscribed to blog
+        :param user_name: String
+        :return: Boolean
+        '''
+        if not user_name:
+            return False
+        user = BlogUser.objects.get(username=user_name)
+        return Subscriber.objects.filter(blog=self, user=user).exists()
 
     def __str__(self):
         return self.title
@@ -30,8 +45,8 @@ class Post(models.Model):
 
     blog = models.ForeignKey(Blog, db_index=True, on_delete=models.CASCADE)
     ctime = models.DateTimeField(auto_now_add=True, db_index=True)
-    title = models.CharField( max_length=200, verbose_name='Название поста')
-    body = models.TextField(verbose_name='Сам пост')
+    title = models.CharField( max_length=200, verbose_name='Заголовк')
+    body = models.TextField(verbose_name='Текст')
 
     read = models.ManyToManyField(BlogUser, through='MarkRead',
                                   through_fields=['post', 'user'])

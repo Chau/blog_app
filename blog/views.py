@@ -54,6 +54,7 @@ class BlogPostListView(ListView):
         # добавляем в контекст объект Blog
         context = super(BlogPostListView, self).get_context_data(**kwargs)
         context['blog'] = self.blog
+        context['is_subscriber'] = self.blog.is_subscriber(self.request.session.get('user_name', ''))
         return context
 
     def get_queryset(self):
@@ -67,7 +68,7 @@ class BlogListView(ListView):
     template_name = 'blog/all.html'
 
     def get_queryset(self):
-        return Blog.objects.all()
+        return Blog.objects.all().order_by('-ctime')
 
 class BlogSubscribeView(View):
 
@@ -77,7 +78,10 @@ class BlogSubscribeView(View):
         if not user_name:
             # TODO: редирект на логин
             pass
-        blog.subscribe(user_name)
+        if request.POST.get('subscribe'):  # checkbox
+            blog.subscribe(user_name)
+        else:
+            blog.unsubscribe(user_name)
         # возвращаемся в блог
         return HttpResponseRedirect(reverse('blog', kwargs={'blog_id': blog.id}))
 
