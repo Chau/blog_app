@@ -28,12 +28,6 @@ class PostCreateView(CreateView):
         context = super(PostCreateView, self).get_context_data(**kwargs)
         return context
 
-    def form_valid(self, form):
-        post = form.save()
-        # TODO: send_email
-
-        return super().form_valid(form)
-
 
 class PostUpdateView(UpdateView):
     model = Post
