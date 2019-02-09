@@ -20,7 +20,7 @@ class LoginView(View):
     def post(self, request):
         user_name = request.POST.get('user_name')
         request.session['user_name'] = user_name
-        return HttpResponseRedirect(reverse('news', kwargs={'user_name': user_name}))
+        return HttpResponseRedirect(reverse('news'))
 
 
 class LogoutView(View):
@@ -43,7 +43,7 @@ class MainView(View):
     def get(self, request):
 
         if request.session.get('user_name'):
-            return HttpResponseRedirect(reverse('news', kwargs={'user_name': request.session['user_name']}))
+            return HttpResponseRedirect(reverse('news'))
         else:
             return HttpResponseRedirect(reverse('login'))
 

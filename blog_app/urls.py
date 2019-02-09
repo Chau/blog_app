@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from .views import LoginView, MainView, LogoutView
+from user.views import NewsView
 
 
 urlpatterns = [
@@ -25,7 +26,7 @@ urlpatterns = [
     path('', MainView.as_view(), name='main_page'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('u/', include('user.urls')),
+    path('news/', NewsView.as_view(), name='news'),
     path('blog/', include('blog.urls')),
     path('post/', include('blog.post_urls'))
 ]

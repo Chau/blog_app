@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends "base.html" %}
+{% block head %}
     <script   src="http://code.jquery.com/jquery-3.3.1.min.js"
                             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
                             crossorigin="anonymous"></script>
-</head>
-<body>
-    <h2>hello, {{ request.session.user_name }}!</h2>
+{% endblock %}
+
+{% block body %}
     {% for post in post_list %}
     {% with post.blog as blog %}
     <b>Блог: <a href="{% url 'blog' blog_id=blog.id %}">{{ blog.title }}</a><br></b>
@@ -39,5 +36,4 @@
         }
 
     </script>
-</body>
-</html>
+{% endblock %}

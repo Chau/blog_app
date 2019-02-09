@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>All Blogs</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}All Blogs{% endblock %}
+
+{% block body %}
+
 {% for blog in blog_list %}
     <a href="{% url 'blog' blog_id=blog.id %}">{{ blog.title }}</a> <br>
 {% endfor %}
-</body>
-</html>
+
+{% endblock %}

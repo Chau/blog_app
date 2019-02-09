@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>{% block title %}Title{% endblock %}</title>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+{% if request.session.user_name %}
+<h2>hello, <a href="{% url 'news' %}">{{ request.session.user_name }}!</a></h2>
+<a href="{% url 'logout' %}">logout</a>
+{% else %}
+<h2>hello, Anonymous!</h2> <a href="{% url 'login' %}">login</a>
+{% endif %}
+<hr>
+{% block body %}
+{% endblock %}
+</body>
+</html>
