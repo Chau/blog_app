@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render, render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import CreateView, UpdateView, View, DeleteView
@@ -44,6 +44,37 @@ class PostView(DetailView):
     model = Post
 
 
+class MarkPostView(View):
+
+    def get(self, request, pk):
+        checked = request.GET.get("checked")
+        print(checked)
+        username = request.session.get('user_name')
+        if not username:
+            return JsonResponse({'status': 'error', 'message': 'error2'})
+
+        try:
+            post = Post.objects.get(id=pk)
+        except Post.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'error3'})
+        post.mark(username, checked=='true')
+        return JsonResponse({'status': 'ok'})
+
+#     def post(self, request):
+#         post_id = request.POST.get('post_id')
+#         # TODO: if not post_id
+#         checked = request.POST.get("checked")
+#         print(checked)
+#         username = request.session.get('user_name')
+# #         TODO: if not username
+#         try:
+#             post = Post.objects.get(id=post_id)
+#         except Post.DoesNotExist:
+#             return JsonResponse({'status': 'error', 'message': 'error'})
+#         post.mark(username, checked)
+#         return JsonResponse({'status': 'ok'})
+
+
 class BlogPostListView(ListView):
 
     model = Post
@@ -69,6 +100,7 @@ class BlogListView(ListView):
 
     def get_queryset(self):
         return Blog.objects.all().order_by('-ctime')
+
 
 class BlogSubscribeView(View):
 

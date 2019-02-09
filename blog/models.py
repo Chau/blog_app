@@ -51,6 +51,19 @@ class Post(models.Model):
     read = models.ManyToManyField(BlogUser, through='MarkRead',
                                   through_fields=['post', 'user'])
 
+    def mark(self, username, checked):
+        '''
+        Mark post as read or unmark
+        :param username: String
+        :param checked: Boolean. Read or unread
+        :return:
+        '''
+        user = BlogUser.objects.get(username=username)
+        if checked:
+            MarkRead.objects.get_or_create(user=user, post=self)
+        else:
+            MarkRead.objects.filter(user=user, post=self).delete()
+
     def get_absolute_url(self):
         return '/blog/{blog_id}/post/{post_id}/'.format(blog_id=self.blog.id, post_id=self.pk)
 
